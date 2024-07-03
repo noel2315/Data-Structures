@@ -1,0 +1,19 @@
+﻿23.You have been given a positive integer N. You need to find and print the 
+Factorial of this number without using recursion. The Factorial of a positive 
+integer N refers to the product of all number in the range from 1 to N.
+Input: N=2
+Output: 2
+Input: N=4
+Output: 24
+Ans:
+#include<stdio.h>
+
+
+int main() {
+    int n, f = 1;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    for(int i = 1; i <= n; i++) f *= i;
+    printf("Factorial of %d is %d\n", n, f);
+    return 0;
+}
