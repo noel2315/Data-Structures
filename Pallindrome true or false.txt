@@ -1,0 +1,54 @@
+﻿8.Given the head of a singly linked list, return true if it is a palindrome or false otherwise. 
+Example 1: 
+Input: head = [1,2,2,1] 
+Output: true
+Example 2:
+Input: head = [1,2]
+Output: false
+Input: R->A->D->A->R->NULL
+Output: Yes
+Input: C->O->D->E->NULL
+Output: No
+
+
+Ans:
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
+
+
+bool isPalindrome(struct ListNode* head) {
+    struct ListNode *slow = head, *fast = head;
+    
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    struct ListNode *prev = NULL, *curr = slow, *next;
+    
+    while (curr) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    
+    struct ListNode *left = head, *right = prev;
+    
+    while (right) {
+        if (left->val != right->val) {
+            return false;
+        }
+        left = left->next;
+        right = right->next;
+    }
+    
+    return true;
+}
