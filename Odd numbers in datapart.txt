@@ -1,0 +1,46 @@
+﻿16.Write a program to find odd number present in the data part of a node
+Example Linked List 1->2->3->7
+Output: 1,3,7
+
+
+ans:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+
+void printOddNumbers(Node* head) {
+    while (head != NULL) {
+        if (head->data % 2 != 0) {
+            printf("%d, ", head->data);
+        }
+        head = head->next;
+    }
+    printf("\n");
+}
+
+
+int main() {
+    Node* head = NULL;
+    head = (Node*)malloc(sizeof(Node));
+    head->data = 1;
+    head->next = (Node*)malloc(sizeof(Node));
+    head->next->data = 2;
+    head->next->next = (Node*)malloc(sizeof(Node));
+    head->next->next->data = 3;
+    head->next->next->next = (Node*)malloc(sizeof(Node));
+    head->next->next->next->data = 7;
+    head->next->next->next->next = NULL;
+
+
+    printf("Odd numbers: ");
+    printOddNumbers(head);
+
+
+    return 0;
+}
