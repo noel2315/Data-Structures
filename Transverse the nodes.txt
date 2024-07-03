@@ -1,0 +1,50 @@
+﻿6.Write a program to traverse the nodes present in the following tree in inorder and postorder traversal
+Ans:
+#include <stdio.h>
+#include <stdlib.h>
+struct TreeNode {
+    int value;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+struct TreeNode* createNode(int value) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode->value = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+void inorderTraversal(struct TreeNode* root) {
+    if (root == NULL) {
+        return;
+    }
+    inorderTraversal(root->left);
+    printf("%d ", root->value);
+    inorderTraversal(root->right);
+}
+void postorderTraversal(struct TreeNode* root) {
+    if (root == NULL) {
+        return;
+    }
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    printf("%d ", root->value);
+}
+
+
+int main() {
+    struct TreeNode* root = createNode(3);
+    root->left = createNode(9);
+    root->right = createNode(20);
+    root->right->left = createNode(15);
+    root->right->right = createNode(7);
+    printf("Inorder Traversal: ");
+    inorderTraversal(root);
+    printf("\n");
+    printf("Postorder Traversal: ");
+    postorderTraversal(root);
+    printf("\n");
+
+
+    return 0;
+}
