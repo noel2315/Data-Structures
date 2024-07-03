@@ -1,0 +1,84 @@
+﻿27.
+        Given the head of a linked list, insert the node in nth place and return its head. 
+Input: head = [1,3,2,3,4,5], p=3 n = 2 
+Output: [1,3,2,3,4,5] 
+Input: head = [1], p = 0, n = 1 
+Output: [0,1] 
+Input: head = [1,2], p=3, n = 3 
+Output: [1,2,3] 
+
+
+ans:
+#include <stdio.h>
+
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+
+void insertNth(Node** head, int p, int n) {
+    Node dummy;
+    dummy.next = *head;
+    Node* cur = &dummy;
+
+
+    for (int i = 0; i < p - 1; i++) {
+        cur = cur->next;
+    }
+
+
+    Node newNode;
+    newNode.data = n;
+
+
+    newNode.next = cur->next;
+    cur->next = &newNode;
+
+
+    *head = dummy.next;
+}
+
+
+void printList(Node* head) {
+    while (head!= NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+
+int main() {
+    Node head;
+    head.data = 1;
+    Node node1;
+    node1.data = 3;
+    head.next = &node1;
+    Node node2;
+    node2.data = 2;
+    node1.next = &node2;
+    Node node3;
+    node3.data = 3;
+    node2.next = &node3;
+    Node node4;
+    node4.data = 4;
+    node3.next = &node4;
+    Node node5;
+    node5.data = 5;
+    node4.next = &node5;
+    node5.next = NULL;
+
+
+    printList(&head);
+
+
+    insertNth(&head.next, 3, 2);
+
+
+    printList(&head);
+
+
+    return 0;
+}
