@@ -1,0 +1,66 @@
+﻿29.You are given with the following linked list
+123
+
+
+The digits are stored in the above order,  you are asked to print the list in reverse order. 
+ANS:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+
+void printList(Node* head) {
+    while (head != NULL) {
+        printf("%d", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+
+void reverseList(Node** head) {
+    Node* prev = NULL;
+    Node* current = *head;
+    Node* next = NULL;
+
+
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+
+    *head = prev;
+}
+
+
+int main() {
+    Node* head = (Node*)malloc(sizeof(Node));
+    head->data = 1;
+    head->next = (Node*)malloc(sizeof(Node));
+    head->next->data = 2;
+    head->next->next = (Node*)malloc(sizeof(Node));
+    head->next->next->data = 3;
+    head->next->next->next = NULL;
+
+
+    printf("Original List: ");
+    printList(head);
+
+
+    reverseList(&head);
+
+
+    printf("Reversed List: ");
+    printList(head);
+
+
+    return 0;
+}
