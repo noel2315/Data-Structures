@@ -1,0 +1,106 @@
+﻿18.Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+Input: s = "()"
+Output: true
+Input: s = "()[]{}"
+Output: true
+Input: s = "(]"
+Output: false
+Input: s = "([)]"
+Output: false
+Input: s = "{[]}"
+Output: true
+
+
+ans:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct Stack {
+    char* arr;
+    int top;
+    int capacity;
+} Stack;
+
+
+void initStack(Stack* stack, int capacity) {
+    stack->arr = (char*)malloc(sizeof(char) * capacity);
+    stack->top = -1;
+    stack->capacity = capacity;
+}
+
+
+void pushStack(Stack* stack, char x) {
+    if (stack->top == stack->capacity - 1) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack->arr[++stack->top] = x;
+}
+
+
+char popStack(Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack underflow\n");
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+
+
+char topStack(Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+    return stack->arr[stack->top];
+}
+
+
+int isValid(char* s) {
+    Stack stack;
+    initStack(&stack, strlen(s));
+    for (int i = 0; i < strlen(s); i++) {
+        if (s[i] == '(') {
+            pushStack(&stack, ')');
+        } else if (s[i] == '{') {
+            pushStack(&stack, '}');
+        } else if (s[i] == '[') {
+            pushStack(&stack, ']');
+        } else if (s[i]!= topStack(&stack)) {
+            return 0;
+        } else {
+            popStack(&stack);
+        }
+    }
+    return stack.top == -1;
+}
+
+
+int main() {
+    char s[] = "()";
+    printf("Valid: %d\n", isValid(s));
+
+
+    char s2[] = "()[]{}";
+    printf("Valid: %d\n", isValid(s2));
+
+
+    char s3[] = "(]";
+    printf("Valid: %d\n", isValid(s3));
+
+
+    char s4[] = "([)]";
+    printf("Valid: %d\n", isValid(s4));
+
+
+    char s5[] = "{[]}";
+    printf("Valid: %d\n", isValid(s5));
+
+
+    return 0;
+}
