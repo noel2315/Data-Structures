@@ -1,0 +1,130 @@
+﻿21.Implement a first in first out (FIFO) queue using only two stacks. The 
+implemented queue should support all the functions of a normal queue (push, 
+peek, pop, and empty).
+Implement the MyQueue class:
+1. void push(int x) Pushes element x to the back of the queue.
+2. int pop() Removes the element from the front of the queue and returns it.
+3. int peek() Returns the element at the front of the queue.
+4. boolean empty() Returns true if the queue is empty, false otherwise.
+Input
+["MyQueue", "push", "push", "peek", "pop", "empty"]
+[[], [1], [2], [], [], []]
+Output
+[null, null, null, 1, 1, false]
+
+
+Explanation
+MyQueue myQueue = new MyQueue();
+myQueue.push(1); // queue is: [1]
+myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)
+myQueue.peek(); // return 1
+myQueue.pop(); // return 1, queue is [2]
+myQueue.empty(); // return false
+
+
+ans:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct Stack {
+    int* arr;
+    int top;
+    int capacity;
+} Stack;
+
+
+typedef struct MyQueue {
+    Stack* stack1;
+    Stack* stack2;
+} MyQueue;
+
+
+void initStack(Stack* stack, int capacity) {
+    stack->arr = (int*)malloc(sizeof(int) * capacity);
+    stack->top = -1;
+    stack->capacity = capacity;
+}
+
+
+void pushStack(Stack* stack, int x) {
+    if (stack->top == stack->capacity - 1) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack->arr[++stack->top] = x;
+}
+
+
+int popStack(Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack underflow\n");
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+
+
+int topStack(Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+    return stack->arr[stack->top];
+}
+
+
+void initQueue(MyQueue* queue, int capacity) {
+    queue->stack1 = (Stack*)malloc(sizeof(Stack));
+    queue->stack2 = (Stack*)malloc(sizeof(Stack));
+    initStack(queue->stack1, capacity);
+    initStack(queue->stack2, capacity);
+}
+
+
+void pushQueue(MyQueue* queue, int x) {
+    pushStack(queue->stack1, x);
+}
+
+
+int popQueue(MyQueue* queue) {
+    if (queue->stack2->top == -1) {
+        while (queue->stack1->top != -1) {
+            pushStack(queue->stack2, popStack(queue->stack1));
+        }
+    }
+    return popStack(queue->stack2);
+}
+
+
+int peekQueue(MyQueue* queue) {
+    if (queue->stack2->top == -1) {
+        while (queue->stack1->top != -1) {
+            pushStack(queue->stack2, popStack(queue->stack1));
+        }
+    }
+    return topStack(queue->stack2);
+}
+
+
+int emptyQueue(MyQueue* queue) {
+    return queue->stack1->top == -1 && queue->stack2->top == -1;
+}
+
+
+int main() {
+    MyQueue queue;
+    initQueue(&queue, 10);
+
+
+    pushQueue(&queue, 1);
+    pushQueue(&queue, 2);
+
+
+    printf("Peek: %d\n", peekQueue(&queue));
+    printf("Pop: %d\n", popQueue(&queue));
+    printf("Empty: %d\n", emptyQueue(&queue));
+
+
+    return 0;
+}
