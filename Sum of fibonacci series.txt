@@ -1,0 +1,29 @@
+﻿19.        Given a number n, the task is to print the Fibonacci series and the sum of the series using Iterative procedure. 
+input n=10 
+output  
+Fibonacci series   
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34
+Sum: 88
+
+
+ans:
+#include <stdio.h>
+
+
+void fibonacci(int n) {
+    int t1 = 0, t2 = 1, sum = 1;
+    printf("Fibonacci series: %d, %d, ", t1, t2);
+    for (int i = 3; i <= n; ++i) {
+        printf("%d, ", t1 + t2);
+        sum += (t1 + t2);
+        t1 = t2;
+        t2 = t1 + t2;
+    }
+    printf("\nSum: %d\n", sum);
+}
+
+
+int main() {
+    fibonacci(10);
+    return 0;
+}
