@@ -1,0 +1,50 @@
+﻿3.Given the head of a singly linked list, return number of nodes present in a linked 
+
+
+Example 1:
+1->2->3->5->8
+Output 5
+ans:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
+int countNodes(struct ListNode *head) {
+    int count = 0;
+    struct ListNode *current = head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+    
+    return count;
+}
+struct ListNode* createNode(int val) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->val = val;
+    newNode->next = NULL;
+    return newNode;
+}
+void freeList(struct ListNode *head) {
+    struct ListNode *temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+int main() {
+    struct ListNode *head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(3);
+    head->next->next->next = createNode(5);
+    head->next->next->next->next = createNode(8);
+    int nodeCount = countNodes(head);
+    printf("Number of nodes present in the linked list: %d\n", nodeCount);  
+    freeList(head);
+    return 0;
+}
