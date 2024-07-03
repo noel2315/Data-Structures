@@ -1,0 +1,74 @@
+﻿9.Given the root of a binary search tree and K as input, find Kth smallest element in BST. 
+For example, in the following BST, 
+123
+if k = 3, then the output should be 10, and
+if k = 5, then the output should be 14.
+Sample:
+123
+Input: root = [3,1,4,null,2], k = 1
+Output: 1
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+Output: 3
+
+
+Ans:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
+
+
+void inOrderTraversal(TreeNode* root, int* count, int k, int* result) {
+    if (root == NULL) return;
+    
+    inOrderTraversal(root->left, count, k, result);
+    
+    (*count)++;
+    if (*count == k) {
+        *result = root->val;
+        return;
+    }
+    
+    inOrderTraversal(root->right, count, k, result);
+}
+
+
+int kthSmallest(TreeNode* root, int k) {
+    int count = 0;
+    int result = 0;
+    inOrderTraversal(root, &count, k, &result);
+    return result;
+}
+
+
+int main() {
+    TreeNode* root = (TreeNode*)malloc(sizeof(TreeNode));
+    root->val = 3;
+    root->left = (TreeNode*)malloc(sizeof(TreeNode));
+    root->right = (TreeNode*)malloc(sizeof(TreeNode));
+    root->left->val = 1;
+    root->right->val = 4;
+    root->left->left = NULL;
+    root->left->right = (TreeNode*)malloc(sizeof(TreeNode));
+    root->left->right->val = 2;
+    root->right->left = NULL;
+    root->right->right = NULL;
+    root->left->right->left = NULL;
+    root->left->right->right = NULL;
+
+
+    int k = 1;
+    printf("Kth smallest element is %d\n", kthSmallest(root, k));
+
+
+    k = 3;
+    printf("Kth smallest element is %d\n", kthSmallest(root, k));
+
+
+    return 0;
+}
