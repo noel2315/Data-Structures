@@ -1,0 +1,93 @@
+﻿17.Write a program to perform insert and delete operations in a queue
+Example : 12,34,56,78
+After insertion of 60  content of the  queue is 12,34,56,78,60
+After deletion of 12 , the contents of the queue : 34,56,78,60
+
+
+ans:
+#include <stdio.h>
+#include <stdlib.h>
+
+
+#define MAX_SIZE 100
+
+
+typedef struct Queue {
+    int arr[MAX_SIZE];
+    int front;
+    int rear;
+} Queue;
+
+
+void initQueue(Queue* q) {
+    q->front = q->rear = 0;
+}
+
+
+int isEmpty(Queue* q) {
+    return q->front == q->rear;
+}
+
+
+int isFull(Queue* q) {
+    return (q->rear + 1) % MAX_SIZE == q->front;
+}
+
+
+void enqueue(Queue* q, int x) {
+    if (isFull(q)) {
+        printf("Queue is full\n");
+        return;
+    }
+    q->arr[q->rear] = x;
+    q->rear = (q->rear + 1) % MAX_SIZE;
+}
+
+
+int dequeue(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+    int x = q->arr[q->front];
+    q->front = (q->front + 1) % MAX_SIZE;
+    return x;
+}
+
+
+void printQueue(Queue* q) {
+    int i = q->front;
+    while (i != q->rear) {
+        printf("%d ", q->arr[i]);
+        i = (i + 1) % MAX_SIZE;
+    }
+    printf("\n");
+}
+
+
+int main() {
+    Queue q;
+    initQueue(&q);
+
+
+    enqueue(&q, 12);
+    enqueue(&q, 34);
+    enqueue(&q, 56);
+    enqueue(&q, 78);
+    printf("Queue: ");
+    printQueue(&q);
+
+
+    enqueue(&q, 60);
+    printf("After insertion of 60, Queue: ");
+    printQueue(&q);
+
+
+    int x = dequeue(&q);
+    printf("Deleted element: %d\n", x);
+    printf("After deletion of 12, Queue: ");
+    printQueue(&q);
+
+
+    return 0;
+}
